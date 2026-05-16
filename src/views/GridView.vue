@@ -1,14 +1,10 @@
 <template>
   <main class="grid-view">
-    <!-- Intro -->
     <section class="intro">
-      <h1 class="intro-title">
-        <em>Une collection</em>
-      </h1>
-      <p class="intro-sub">Cliquez sur une pochette pour entrer dans l'œuvre</p>
+      <!-- <p class="intro-ref">Archives — {{ tracks.length }} entrées</p> -->
+      <!-- <h1 class="intro-title">Documents</h1> -->
     </section>
 
-    <!-- Grid 3×3 -->
     <section class="grid-container">
       <div class="music-grid">
         <router-link
@@ -18,7 +14,6 @@
           class="grid-item"
           :style="{ '--item-index': index, '--accent': track.color }"
         >
-          <!-- Pochette -->
           <div class="cover-wrapper">
             <img
               :src="track.cover"
@@ -27,22 +22,21 @@
               loading="lazy"
               @error="onImgError"
             />
-            <div class="cover-placeholder" :style="{ background: placeholderGradient(track.color) }">
+            <div class="cover-placeholder" :style="{ background: placeholderBg(track.color) }">
               <span class="placeholder-num">{{ String(index + 1).padStart(2, '0') }}</span>
             </div>
             <div class="cover-overlay">
               <div class="overlay-content">
-                <p class="overlay-genre">{{ track.genre }}</p>
+                <p class="overlay-doctype">{{ track.docType }}</p>
                 <h2 class="overlay-title">{{ track.title }}</h2>
-                <p class="overlay-year">{{ track.subtitle }}</p>
-                <span class="overlay-cta">Écouter →</span>
+                <p class="overlay-date">{{ track.subtitle }}</p>
               </div>
             </div>
+            <div class="accent-bar" :style="{ background: track.color }"></div>
           </div>
 
-          <!-- Info sous la pochette -->
           <div class="item-info">
-            <p class="item-index">{{ String(index + 1).padStart(2, '0') }}</p>
+            <span class="item-index">{{ String(index + 1).padStart(2, '0') }}</span>
             <h2 class="item-title">{{ track.title }}</h2>
           </div>
         </router-link>
@@ -54,48 +48,38 @@
 <script setup>
 import { tracks } from '../data/music.js'
 
-function placeholderGradient(color) {
-  return `linear-gradient(135deg, #1a1a1a 0%, ${color}22 100%)`
+function placeholderBg(color) {
+  return `linear-gradient(160deg, #111 0%, ${color}18 100%)`
 }
-
 function onImgError(e) {
   e.target.style.display = 'none'
 }
 </script>
 
 <style scoped>
-.grid-view {
-  padding: 0 3rem 4rem;
-  flex: 1;
+.grid-view { padding: 0 3rem 5rem; flex: 1; }
+
+.intro {
+  padding: 3rem 0 2.5rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 2px;
 }
 
-/* ---- Intro ---- */
-.intro {
-  padding: 3.5rem 0 3rem;
-  border-bottom: 1px solid var(--border);
-  margin-bottom: 3rem;
+.intro-ref {
+  font-size: 0.55rem;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.7rem;
 }
 
 .intro-title {
   font-family: var(--serif);
-  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-size: clamp(1.8rem, 3.5vw, 3rem);
   font-weight: 400;
   font-style: italic;
-  color: var(--cream);
+  color: var(--text);
   letter-spacing: -0.01em;
-  margin-bottom: 0.6rem;
-}
-
-.intro-sub {
-  font-size: 0.7rem;
-  letter-spacing: 0.25em;
-  color: var(--muted);
-  text-transform: uppercase;
-}
-
-/* ---- Grid ---- */
-.grid-container {
-  max-width: 1200px;
 }
 
 .music-grid {
@@ -104,17 +88,16 @@ function onImgError(e) {
   gap: 2px;
 }
 
-/* ---- Grid Item ---- */
 .grid-item {
   display: block;
   cursor: pointer;
-  animation: fadeUp 0.7s ease both;
-  animation-delay: calc(var(--item-index) * 0.07s);
+  animation: fadeIn 0.6s ease both;
+  animation-delay: calc(var(--item-index) * 0.06s);
 }
 
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 .cover-wrapper {
@@ -124,20 +107,17 @@ function onImgError(e) {
   background: var(--surface);
 }
 
-/* Image réelle */
 .cover-img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-              filter 0.5s ease;
-  filter: saturate(0.8) brightness(0.9);
   z-index: 1;
+  transition: transform 0.6s ease, filter 0.4s ease;
+  filter: saturate(0.5) brightness(0.85);
 }
 
-/* Placeholder quand pas d'image */
 .cover-placeholder {
   position: absolute;
   inset: 0;
@@ -149,132 +129,101 @@ function onImgError(e) {
 
 .placeholder-num {
   font-family: var(--serif);
-  font-size: 4rem;
+  font-size: 5rem;
   font-weight: 400;
-  color: rgba(255,255,255,0.08);
-  letter-spacing: -0.02em;
+  color: rgba(255,255,255,0.04);
 }
 
-/* Overlay au hover */
 .cover-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(0,0,0,0.92) 0%,
-    rgba(0,0,0,0.5) 50%,
-    transparent 100%
-  );
+  background: linear-gradient(to top, rgba(8,8,8,0.92) 0%, rgba(8,8,8,0.3) 55%, transparent 100%);
   display: flex;
   align-items: flex-end;
-  padding: 1.5rem;
+  padding: 1.3rem;
   opacity: 0;
-  transition: opacity 0.4s ease;
+  transition: opacity 0.35s ease;
   z-index: 2;
 }
 
 .overlay-content {
-  transform: translateY(8px);
-  transition: transform 0.4s ease;
+  transform: translateY(6px);
+  transition: transform 0.35s ease;
 }
 
-.overlay-genre {
-  font-size: 0.6rem;
-  letter-spacing: 0.3em;
+.overlay-doctype {
+  font-size: 0.55rem;
+  letter-spacing: 0.4em;
   text-transform: uppercase;
-  color: var(--accent, var(--gold));
-  margin-bottom: 0.4rem;
+  color: var(--accent);
+  opacity: 0.8;
+  margin-bottom: 0.35rem;
 }
 
 .overlay-title {
   font-family: var(--serif);
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: 400;
-  color: var(--cream);
-  margin-bottom: 0.2rem;
+  color: var(--text);
+  margin-bottom: 0.25rem;
 }
 
-.overlay-year {
-  font-size: 0.65rem;
+.overlay-date {
+  font-size: 0.55rem;
+  letter-spacing: 0.25em;
   color: var(--muted);
-  letter-spacing: 0.2em;
-  margin-bottom: 0.8rem;
 }
 
-.overlay-cta {
-  font-size: 0.65rem;
-  letter-spacing: 0.2em;
-  color: var(--accent, var(--gold));
-  text-transform: uppercase;
-}
-
-/* Hover states */
-.grid-item:hover .cover-img {
-  transform: scale(1.04);
-  filter: saturate(1) brightness(0.7);
-}
-
-.grid-item:hover .cover-overlay {
-  opacity: 1;
-}
-
-.grid-item:hover .overlay-content {
-  transform: translateY(0);
-}
-
-/* Ligne décorative sur le bord gauche au hover */
-.cover-wrapper::before {
-  content: '';
+.accent-bar {
   position: absolute;
-  left: 0;
-  top: 0;
   bottom: 0;
-  width: 2px;
-  background: var(--accent, var(--gold));
-  transform: scaleY(0);
-  transform-origin: bottom;
-  transition: transform 0.4s ease;
+  left: 0;
+  right: 0;
+  height: 1px;
   z-index: 3;
+  opacity: 0;
+  transition: opacity 0.35s ease;
 }
 
-.grid-item:hover .cover-wrapper::before {
-  transform: scaleY(1);
+.grid-item:hover .cover-img {
+  transform: scale(1.03);
+  filter: saturate(0.7) brightness(0.75);
 }
 
-/* Info sous la pochette */
+.grid-item:hover .cover-overlay { opacity: 1; }
+.grid-item:hover .overlay-content { transform: translateY(0); }
+.grid-item:hover .accent-bar { opacity: 0.6; }
+
 .item-info {
   display: flex;
   align-items: baseline;
-  gap: 0.8rem;
-  padding: 0.8rem 0 1rem;
+  gap: 0.75rem;
+  padding: 0.75rem 0 0.9rem;
   border-bottom: 1px solid var(--border);
 }
 
 .item-index {
-  font-size: 0.6rem;
-  color: var(--accent, var(--gold));
-  letter-spacing: 0.1em;
+  font-size: 0.55rem;
+  color: var(--muted);
   flex-shrink: 0;
+  letter-spacing: 0.1em;
 }
 
 .item-title {
   font-family: var(--serif);
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 400;
-  color: var(--text);
+  color: var(--ash-dim);
   letter-spacing: 0.02em;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-/* ---- Responsive ---- */
 @media (max-width: 768px) {
   .grid-view { padding: 0 1rem 3rem; }
   .music-grid { grid-template-columns: repeat(2, 1fr); }
-  .intro { padding: 2rem 0; }
 }
-
 @media (max-width: 480px) {
   .music-grid { grid-template-columns: 1fr; }
 }

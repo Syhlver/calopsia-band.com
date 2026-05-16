@@ -1,64 +1,54 @@
 /* ============================================
-   GLOBAL — Cinématique Sombre / Or
+   GLOBAL — Calopsia
    ============================================ */
-
+ 
 :root {
-  --black:    #0a0a0a;
-  --dark:     #111111;
-  --surface:  #1a1a1a;
-  --panel:    #222222;
-  --border:   rgba(201, 168, 76, 0.15);
-  --gold:     #c9a84c;
-  --gold-dim: rgba(201, 168, 76, 0.45);
-  --gold-glow:rgba(201, 168, 76, 0.08);
-  --cream:    #f0e8d8;
-  --text:     #e8e0d0;
-  --muted:    rgba(232, 224, 208, 0.45);
-  --serif:    'Playfair Display', Georgia, serif;
-  --italic:   'Cormorant Garamond', Georgia, serif;
-  --sans:     'Josefin Sans', sans-serif;
+  --black:      #080808;
+  --dark:       #0e0e0e;
+  --surface:    #141414;
+  --panel:      #1c1c1c;
+  --cotton:     #f6f6f6;
+  --border:     rgba(200, 190, 175, 0.1);
+  --border-mid: rgba(200, 190, 175, 0.2);
+  --ash:        #22a6e3;
+  --ash-dim:    #22a6e3;
+  --ash-faint:  #22a6e3;
+  --bg-light-blue: #f0f0eb;
+  --brown:      #a06262;
+  --text:       #080808;
+  --muted:      rgb(69, 67, 64);
+  --serif:      'Newsreader', serif;
+  --italic:     'Cormorant Garamond', Georgia, serif;
+  --sans:       'Josefin Sans', sans-serif;
 }
-
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html {
-  font-size: 16px;
-  scroll-behavior: smooth;
-}
-
+ 
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ 
+html { font-size: 16px; scroll-behavior: smooth; }
+ 
 body {
-  background: var(--black);
+  background-color: rgba(255, 255, 255, 0.4);
+  background-image: url('./bg-sand-2.jpg');
+  background-blend-mode: lighten;
   color: var(--text);
   font-family: var(--sans);
   font-weight: 300;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
   min-height: 100vh;
   overflow-x: hidden;
 }
-
-/* Scrollbar */
-::-webkit-scrollbar { width: 4px; }
+ 
+::-webkit-scrollbar { width: 3px; }
 ::-webkit-scrollbar-track { background: var(--black); }
-::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 2px; }
-
-/* Sélection */
-::selection { background: var(--gold-dim); color: var(--black); }
-
+::-webkit-scrollbar-thumb { background: rgba(200,191,176,0.15); border-radius: 2px; }
+ 
+::selection { background: rgba(200,191,176,0.1); color: var(--text); }
+ 
 a { text-decoration: none; color: inherit; }
-
-/* Transitions de pages */
-.page-enter-active,
-.page-leave-active {
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-.page-enter-from { opacity: 0; transform: translateY(12px); }
-.page-leave-to   { opacity: 0; transform: translateY(-12px); }
-
-/* ---- Grain overlay ---- */
+ 
+.page-enter-active, .page-leave-active { transition: opacity 0.5s ease; }
+.page-enter-from, .page-leave-to { opacity: 0; }
+ 
 body::after {
   content: '';
   position: fixed;
@@ -66,5 +56,5 @@ body::after {
   pointer-events: none;
   z-index: 9999;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-  opacity: 0.028;
+  opacity: 0.032;
 }

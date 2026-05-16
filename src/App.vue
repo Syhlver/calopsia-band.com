@@ -1,11 +1,7 @@
 <template>
   <div class="app">
     <header class="site-header">
-      <router-link to="/" class="site-title">
-        <span class="title-line">MY</span>
-        <span class="title-divider">◆</span>
-        <span class="title-line">MUSIC</span>
-      </router-link>
+      <router-link to="/" class="site-title">CALOPSIA</router-link>
       <div class="header-rule"></div>
     </header>
 
@@ -16,7 +12,7 @@
     </router-view>
 
     <footer class="site-footer">
-      <div class="footer-line"></div>
+      <div class="footer-rule"></div>
       <p class="footer-text">{{ currentYear }}</p>
     </footer>
   </div>
@@ -27,59 +23,40 @@ const currentYear = new Date().getFullYear()
 </script>
 
 <style scoped>
-.app {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
+.app { display: flex; flex-direction: column; min-height: 100vh; }
 
-/* ---- Header ---- */
-.site-header {
-  padding: 2.5rem 3rem 0;
-  position: relative;
-  z-index: 10;
-}
+.site-header { padding: 2.2rem 3rem 0; }
 
 .site-title {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.9rem;
-  letter-spacing: 0.35em;
-  font-size: 0.75rem;
-  font-weight: 100;
-  color: var(--gold);
+  display: inline-block;
+  font-size: 2.0rem;
+  font-weight: 600;
+  letter-spacing: 0.55em;
+  color: var(--ash-dim);
   text-transform: uppercase;
-  transition: opacity 0.3s;
+  transition: color 0.3s;
+  text-shadow: 2px 1px 0px white;
 }
-.site-title:hover { opacity: 0.7; }
-
-.title-divider {
-  font-size: 0.4rem;
-  opacity: 0.6;
-}
+.site-title:hover { color: var(--ash); }
 
 .header-rule {
   height: 1px;
-  background: linear-gradient(90deg, var(--gold-dim) 0%, transparent 60%);
-  margin-top: 1.2rem;
+  background: linear-gradient(90deg, var(--border-mid) 0%, transparent 55%);
+  margin-top: 1.1rem;
 }
 
-/* ---- Footer ---- */
-.site-footer {
-  margin-top: auto;
-  padding: 2rem 3rem;
-}
+.site-footer { margin-top: auto; padding: 2rem 3rem; }
 
-.footer-line {
+.footer-rule {
   height: 1px;
-  background: linear-gradient(90deg, transparent 0%, var(--gold-dim) 50%, transparent 100%);
+  background: linear-gradient(90deg, transparent, var(--border) 40%, transparent);
   margin-bottom: 1.2rem;
 }
 
 .footer-text {
   text-align: center;
-  font-size: 0.65rem;
-  letter-spacing: 0.3em;
+  font-size: 0.55rem;
+  letter-spacing: 0.4em;
   color: var(--muted);
 }
 </style>
