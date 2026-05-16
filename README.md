@@ -1,141 +1,120 @@
-# My Music — Site cinématique
+# Calopsia
+ 
+Music showcase site with a grid of covers and detailed narrative pages.
+Stories by Pauline Nordor
+Music and lyrics by Calopsia
 
-Site d'exposition musicale avec grid de pochettes et pages détaillées romanesques.
-**Stack** : Vue.js 3 + Vite — entièrement statique, déployable sur GitHub Pages.
-
+**Stack**: Vue.js 3 + Vite — fully static, deployable on GitHub Pages.
+ 
 ---
-
-## Structure du projet
-
+ 
+## Project structure
+ 
 ```
-music-site/
+calopsia/
 ├── public/
-│   ├── covers/          ← Tes pochettes (cover-01.jpg … cover-09.jpg)
-│   └── audio/           ← Tes fichiers audio (track-01.mp3 … track-09.mp3)
+│   └── covers/          ← Cover images
 ├── src/
 │   ├── data/
-│   │   └── music.js     ← ⭐ Fichier principal à éditer
+│   │   └── music.js     ← Main data file
 │   ├── views/
-│   │   ├── GridView.vue ← Grille 3×3
-│   │   └── TrackView.vue← Page détaillée
+│   │   ├── GridView.vue ← 3×3 grid
+│   │   └── TrackView.vue← Detail page
 │   └── assets/
-│       └── global.css   ← Thème sombre/or
+│       └── global.css   ← Global styles
 └── .github/workflows/
-    └── deploy.yml       ← Déploiement automatique
+    └── deploy.yml       ← Auto-deployment
 ```
-
+ 
 ---
-
-## 1. Ajouter tes musiques
-
-### Fichiers médias
-
-Place tes fichiers dans `public/` :
+ 
+## Adding tracks
+ 
+### Cover images
+ 
+Place cover files in `public/covers/`:
 ```
-public/covers/cover-01.jpg   (ou .png, .webp)
-public/audio/track-01.mp3    (ou .ogg, .wav)
+public/covers/the_unknown.jpg
+public/covers/another_track.jpg
 ```
-
-> **Taille recommandée pour les pochettes** : 800×800 px minimum, format carré.
-
-### Éditer les métadonnées
-
-Ouvre `src/data/music.js` et remplis chaque track :
-
+ 
+Recommended size: 800×800 px minimum, square format.
+ 
+### Track data
+ 
+Edit `src/data/music.js`:
+ 
 ```js
 {
   id: 1,
-  title: "Nom de ta musique",
-  subtitle: "2024",           // Année ou description courte
-  genre: "Ambient",           // Tag affiché sur la pochette
-  cover: "covers/cover-01.jpg",
-  audio: "audio/track-01.mp3",
-  color: "#c9a84c",           // Couleur d'accent (hex) — adapte à ta pochette
+  title: "Track title",
+  docType: "Deposition",      // Document type in the lore
+  loreDate: "Cycle 14 — Day 3",
+  cover: "covers/the_unknown.jpg",
+  spotifyId: "4uLU6hMCjMI75M1A2tKUQC", // from the Spotify track URL
+  color: "#22a6e3",           // Accent color (hex)
+  links: [2, 4],              // IDs of related tracks
   prose: `
-    <p>Ton texte romanesque ici...</p>
-    <p>Deuxième paragraphe...</p>
+    <p>Narrative text here.</p>
   `
 }
 ```
-
-**Astuce `color`** : choisis une couleur dominante de ta pochette pour un rendu cohérent.
-
+ 
+The `spotifyId` is the last segment of any Spotify track URL:
+`https://open.spotify.com/track/`**`4uLU6hMCjMI75M1A2tKUQC`**
+ 
+If `spotifyId` is not set, the player area will display a placeholder.
+ 
 ---
-
-## 2. Installer & lancer en local
-
+ 
+## Local development
+ 
 ```bash
-# Installer les dépendances
-npm install
-
-# Démarrer le serveur de développement
-npm run dev
+pnpm install
+pnpm run dev
 # → http://localhost:5173
-
-# Builder pour la production
-npm run build
+ 
+pnpm run build
 ```
-
+ 
 ---
-
-## 3. Déployer sur GitHub Pages
-
-### Première fois
-
-1. Crée un repo GitHub (ex. `mon-site-music`)
-2. Dans ton repo GitHub → **Settings** → **Pages** → Source : **GitHub Actions**
-3. Push le projet :
-
+ 
+## Deployment
+ 
+The project deploys automatically to GitHub Pages via GitHub Actions on every push to `main`.
+ 
+### First-time setup
+ 
+1. Create a GitHub repository
+2. Go to **Settings → Pages → Source**: set to **GitHub Actions**
+3. Push the project:
 ```bash
-cd music-site
 git init
 git add .
-git commit -m "Initial commit"
+git commit -m "init"
 git branch -M main
-git remote add origin https://github.com/TON-USERNAME/mon-site-music.git
+git remote add origin https://github.com/USERNAME/REPO.git
 git push -u origin main
 ```
-
-4. GitHub Actions se déclenche automatiquement → ton site sera accessible à :
-   `https://TON-USERNAME.github.io/mon-site-music/`
-
-### Mises à jour
-
+ 
+### Updates
+ 
 ```bash
 git add .
-git commit -m "Ajout nouvelle musique"
+git commit -m "add track"
 git push
 ```
-
-Le site se redéploie automatiquement en ~1 minute.
-
+ 
+The site rebuilds automatically in about a minute.
+ 
 ---
-
-## 4. Ajouter plus de 9 musiques
-
-La grille s'adapte automatiquement — ajoute simplement de nouveaux objets dans le tableau `tracks` dans `music.js`. La grille passera à 4 colonnes si tu as 12+ titres (à ajuster dans `GridView.vue`, propriété `grid-template-columns`).
-
----
-
-## 5. Personnaliser le design
-
-| Élément | Fichier |
+ 
+## Customization
+ 
+| Element | File |
 |---|---|
-| Couleurs globales | `src/assets/global.css` → variables `:root` |
-| Titre du site | `src/App.vue` |
-| Typographie | `index.html` (import Google Fonts) + `global.css` |
-| Mise en page grille | `src/views/GridView.vue` |
-| Page détaillée | `src/views/TrackView.vue` |
-
----
-
-## Formats audio supportés
-
-- `.mp3` — recommandé (compatible partout)
-- `.ogg` — meilleure compression (non supporté Safari)
-- `.wav` — sans perte mais lourd
-- `.flac` — non recommandé pour le web
-
----
-
-*Site généré avec Vue 3 + Vite. Aucun backend requis.*
+| Global colors & fonts | `src/assets/global.css` |
+| Site name | `src/App.vue` |
+| Font imports | `index.html` |
+| Grid layout | `src/views/GridView.vue` |
+| Detail page | `src/views/TrackView.vue` |
