@@ -10,7 +10,7 @@
         <router-link
           v-for="(track, index) in tracks"
           :key="track.id"
-          :to="`/track/${track.id}`"
+          :to="`/${track.id}`"
           class="grid-item"
           :style="{ '--item-index': index, '--accent': track.color }"
         >

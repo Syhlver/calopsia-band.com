@@ -79,12 +79,12 @@
         <div class="prose-body" v-html="track.prose"></div>
 
         <div class="track-nav">
-          <router-link v-if="prevTrack" :to="`/track/${prevTrack.id}`" class="tnav-link">
+          <router-link v-if="prevTrack" :to="`/${prevTrack.id}`" class="tnav-link">
             <span>←</span>
             <span>{{ prevTrack.title }}</span>
           </router-link>
           <span v-else></span>
-          <router-link v-if="nextTrack" :to="`/track/${nextTrack.id}`" class="tnav-link tnav-link--r">
+          <router-link v-if="nextTrack" :to="`/${nextTrack.id}`" class="tnav-link tnav-link--r">
             <span>{{ nextTrack.title }}</span>
             <span>→</span>
           </router-link>
@@ -108,8 +108,8 @@ import { tracks } from '../data/music.js'
 const route   = useRoute()
 const audioEl = ref(null)
 
-const track       = computed(() => tracks.find(t => t.id === Number(route.params.id)))
-const trackIndex  = computed(() => tracks.findIndex(t => t.id === Number(route.params.id)))
+const track = computed(() => tracks.find(t => t.id === route.params.id))
+const trackIndex = computed(() => tracks.findIndex(t => t.id === route.params.id))
 const prevTrack   = computed(() => trackIndex.value > 0 ? tracks[trackIndex.value - 1] : null)
 const nextTrack   = computed(() => trackIndex.value < tracks.length - 1 ? tracks[trackIndex.value + 1] : null)
 const linkedTracks = computed(() => {

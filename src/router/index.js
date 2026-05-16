@@ -4,7 +4,7 @@ import TrackView from '../views/TrackView.vue'
 
 const routes = [
   { path: '/', component: GridView },
-  { path: '/track/:id', component: TrackView }
+  { path: '/:id', component: TrackView }
 ]
 
 const router = createRouter({
